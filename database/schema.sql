@@ -2,7 +2,6 @@ create database mealie
 character set utf8mb4
 collate utf8mb4_unicode_ci;
 
-use mealie;
 
 create table users (
 	user_id int auto_increment primary key,
@@ -20,3 +19,7 @@ create table meals (
     foreign key (user_id) references users(user_id)
 );    
 
+show databases;
+
+use mealie;
+show tables;
