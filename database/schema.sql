@@ -22,4 +22,8 @@ create table meals (
 show databases;
 
 use mealie;
+
 show tables;
+
+select * from users;
+
