@@ -6,6 +6,12 @@ async function findUserByEmail(email) {
 
 }
 
+async function findUserByUsername(username) {
+    const [rows] = await db.execute("SELECT * FROM users WHERE username = ?", [username]);
+    return rows[0];
+
+}
+
 async function createUser(username, email, passwordHash) {
     const [result] = await db.execute("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)", [username, email, passwordHash]);
     return result.insertId;
@@ -13,5 +19,6 @@ async function createUser(username, email, passwordHash) {
 
 module.exports = {
     findUserByEmail,
+    findUserByUsername,
     createUser
 };

@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const PORT = process.env.PORT || 3000;
 const db = require('./config/database');
 const bcrypt = require('bcrypt');
 const userModel = require('./models/userModel');
+const session = require('express-session');
 
 
 
@@ -12,6 +14,15 @@ const userModel = require('./models/userModel');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(session({
+    secret: 'mealie-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    }
+}));
+
 
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
@@ -19,7 +30,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-    res.render('dashboard', { title: 'Dashboard' });
+
+    if (!req.session.userId) {
+        return res.redirect('/login');
+    }
+
+    res.render('dashboard', { title: 'Dashboard', username: req.session.username });
 });
 
 app.get('/login', (req, res) => {
@@ -29,9 +45,50 @@ app.get('/login', (req, res) => {
 app.post('/login', async(req, res) => {
     const { username, password } = req.body;
 
-    console.log("Login attempt:", username);
+    try{
+        const user = await userModel.findUserByUsername(username);
 
-    res.redirect('/dashboard');
+        if (!user) {
+            return res.status(400).send("Invalid username or password");
+        }
+
+        const passwordMatches = await bcrypt.compare(
+            password,
+            user.password_hash
+        );
+
+        if (!passwordMatches) {
+            return res.status(400).send("Invalid username or password");
+        }
+
+        req.session.userId = user.user_id;
+        req.session.username = user.username;
+
+        res.redirect("/dashboard");
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong");
+    }
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Session destroy error:", err);
+      return res.status(500).render("login", {
+        title: "Login",
+        errors: [
+          {
+            msg: "Logout failed. Please try again."
+          }
+        ],
+        formData: {}
+      });
+    }
+
+    res.redirect("/login");
+  });
 });
 
 app.get('/register', (req, res) => {
