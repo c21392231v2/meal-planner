@@ -22,5 +22,49 @@
         <button type="submit">Log out</button>
     </form>
     
+    <h2>Add a Meal</h2>
+
+<form action="/meals" method="POST">
+
+    <div>
+        <label for="title">Meal</label>
+        <input
+            type="text"
+            id="title"
+            name="title"
+            maxlength="150"
+            required
+        >
+    </div>
+
+    <div>
+        <label for="meal_day">Day</label>
+
+        <select id="meal_day" name="meal_day" required>
+            <option value="">Select day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="time_of_day">Meal Type</label>
+
+        <select id="time_of_day" name="time_of_day" required>
+            <option value="">Select meal type</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+        </select>
+    </div>
+
+    <button type="submit">Add Meal</button>
+
+</form>
 </body>
 </html>

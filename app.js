@@ -6,6 +6,7 @@ const db = require('./config/database');
 const bcrypt = require('bcrypt');
 const userModel = require('./models/userModel');
 const session = require('express-session');
+const mealRoutes = require("./routes/mealRoutes");
 
 
 
@@ -135,6 +136,7 @@ app.post('/register', async (req, res) => {
     // Process registration logic here
 });
 
+app.use("/meals", mealRoutes);
 
 app.listen(PORT, () => {
     console.log(`Express server running at http://localhost:${PORT}/`);
