@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const userModel = require('./models/userModel');
 const session = require('express-session');
 const mealRoutes = require("./routes/mealRoutes");
+const { requireAuth } = require('./middleware/authMiddleware');
 
 
 
@@ -30,13 +31,8 @@ app.get('/', (req, res) => {
     res.render('home', { title: 'Mealie - Your Meal Planner' });
 });
 
-app.get('/dashboard', (req, res) => {
-
-    if (!req.session.userId) {
-        return res.redirect('/login');
-    }
-
-    res.render('dashboard', { title: 'Dashboard', username: req.session.username });
+app.get('/dashboard', requireAuth, (req, res) => {
+    res.redirect("/meals")
 });
 
 app.get('/login', (req, res) => {
