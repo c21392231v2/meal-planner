@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+    <h1> Edit Meal</h1>
+
+    <form action="/meals/<%= meal.meal_id %>/edit" method="POST">
+
+        <div>
+            <label for="title">Meal</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                value="<%= formData.title || meal.title %>"
+                maxlength="150"
+                required
+                >
+        </div>
+
+        <div>
+            <label for="meal_day">Day</label>
+
+            <select id="meal_day" name="meal_day" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="time_of_day">Meal Type</label>
+
+            <select id="time_of_day" name="time_of_day" required>
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Dinner">Dinner</option>
+            </select>
+        </div>
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <a href="meals">Back to meals</a>
+</body>
+</html>

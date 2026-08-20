@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+
+    <main>
+        <h1><%= meal.title %></h1>
+
+        <p>
+            Day: 
+            <%= meal.meal_day %>
+        </p>
+
+        <p>
+            Meal type:
+            <%= meal.time_of_day %>
+        </p>
+
+        <a href="/meals/<%= meal.meal_id %>/edit">
+            Edit Meal
+        </a>
+
+        <a href="/meals">
+            Back to Meals
+        </a>
+
+        <form action="/meals/<%= meal.meal_id %>/delete" method="POST">
+            <button type="submit">Delete Meal</button>
+        </form>
+    </main>
+</body>
+</html>
