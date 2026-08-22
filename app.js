@@ -8,6 +8,7 @@ const userModel = require('./models/userModel');
 const session = require('express-session');
 const mealRoutes = require("./routes/mealRoutes");
 const { requireAuth } = require('./middleware/authMiddleware');
+const profileRoutes = require("./routes/profileRoutes");
 
 
 
@@ -133,6 +134,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.use("/meals", mealRoutes);
+app.use("/", profileRoutes);
 
 app.listen(PORT, () => {
     console.log(`Express server running at http://localhost:${PORT}/`);
